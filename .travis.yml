@@ -1,0 +1,26 @@
+sudo: required
+services:
+  - docker
+  
+
+before_install:
+  - docker build -t satyaban/react-test -f ./client/Dockerfile.dev ./client
+  
+script:
+  - docker run satyaban/react-test npm test -- --coverage
+  
+after_success:
+  - docker build -t satyaban/multi-client ./client
+  - docker build -t satyaban/multi-server ./server
+  - docker build -t satyaban/multi-nginx ./nginx
+  - docker build -t satyaban/multi-worker ./worker
+  
+  # Login to docker CLI
+  - echo "$DOCKER_PASSWORD" | 	docker login -u "$DOCKER_ID" --password-stdin
+  
+  # Take those images and push them to docker hub
+  - docker push satyaban/satyaban/multi-client
+  - docker push satyaban/satyaban/multi-server
+  - docker push satyaban/satyaban/multi-nginx
+  - docker push satyaban/satyaban/multi-worker
+
