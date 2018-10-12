@@ -24,3 +24,14 @@ after_success:
   - docker push 02mc2473/multi-nginx
   - docker push 02mc2473/multi-worker
 
+deploy:
+  provider: elasticbeanstalk
+  region: us-west-1
+  app: complex
+  env: complex-env
+  bucket_name: ""
+  bucket_path: complex
+  on:
+    branch: master
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
