@@ -4,10 +4,10 @@ services:
   
 
 before_install:
-  - docker build -t satyaban/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t 02mc2473/react-test -f ./client/Dockerfile.dev ./client
   
 script:
-  - docker run satyaban/react-test npm test -- --coverage
+  - docker run 02mc2473/react-test npm test -- --coverage
   
 after_success:
   - docker build -t 02mc2473/multi-client ./client
